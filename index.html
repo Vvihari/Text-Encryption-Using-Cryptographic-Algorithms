@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Encrypt and Decrypt Text</title>
+    <script>
+        async function encryptText() {
+            const text = document.getElementById("text-to-encrypt").value;
+            const response = await fetch('/encrypt', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ text: text })
+            });
+            const result = await response.json();
+            document.getElementById("encrypted-text").value = result.encrypted_text;
+        }
+
+        async function decryptText() {
+            const encryptedText = document.getElementById("encrypted-text").value;
+            const response = await fetch('/decrypt', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ encrypted_text: encryptedText })
+            });
+            const result = await response.json();
+            document.getElementById("decrypted-text").value = result.decrypted_text;
+        }
+    </script>
+</head>
+<body>
+    <h1>Encrypt and Decrypt Text</h1>
+    <div>
+        <textarea id="text-to-encrypt" placeholder="Enter text to encrypt"></textarea>
+        <button onclick="encryptText()">Encrypt</button>
+    </div>
+    <div>
+        <textarea id="encrypted-text" placeholder="Encrypted text"></textarea>
+        <button onclick="decryptText()">Decrypt</button>
+    </div>
+    <div>
+        <textarea id="decrypted-text" placeholder="Decrypted text"></textarea>
+    </div>
+</body>
+</html>
